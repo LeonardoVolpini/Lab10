@@ -12,6 +12,7 @@ import javafx.event.ActionEvent;
 import it.polito.tdp.rivers.model.Flow;
 import it.polito.tdp.rivers.model.Model;
 import it.polito.tdp.rivers.model.River;
+import it.polito.tdp.rivers.model.Simulator;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -21,6 +22,7 @@ import javafx.scene.control.TextField;
 public class FXMLController {
 	
 	private Model model;
+	private Simulator sim;
 
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -75,9 +77,38 @@ public class FXMLController {
     
     @FXML
     void handleSimula(ActionEvent event) {
-    	//per prendere prima e ultima data delle flows
-    	//basta prendere a indice 0 e a indice .size()-1
-    	//numero totale di flows -> .size() della lista
+    	this.txtResult.clear();
+    	River r = this.boxRiver.getValue();
+    	if (r==null) {
+    		this.txtResult.setText("nessun fiume selezionato");
+    		return;
+    	}
+    	String fString= this.txtFMed.getText();
+    	if (fString.isEmpty()) {
+    		this.txtResult.setText("Selezionare un fiume e premere il bottone riempiCampi");
+    		return;
+    	}
+    	float f = Float.parseFloat(fString);
+    	String kString = this.txtK.getText();
+    	if (kString.isEmpty()) {
+    		this.txtResult.setText("Inserire un valore di k");
+    		return;
+    	}
+    	float k;
+    	try {
+    		k= Float.parseFloat(kString);
+    	} catch(NumberFormatException e) {
+    		this.txtResult.setText("Inserire un valore numerico di k");
+    		return;
+    	}
+    	if (k<=0) {
+    		this.txtResult.setText("Inserire un valore di k >0");
+    		return;
+    	}
+    	sim.init(k, f, r);
+    	sim.run();
+    	this.txtResult.setText("Numero di giorni di disservizio: "+sim.getNumGioriDissservizio());
+    	this.txtResult.appendText("\nLa capienza media e': "+sim.getCmed());
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
@@ -94,6 +125,7 @@ public class FXMLController {
     
     public void setModel(Model model) {
     	this.model = model;
+    	this.sim= new Simulator();
     	this.boxRiver.getItems().addAll(model.getAllRivers());	
     	
     }

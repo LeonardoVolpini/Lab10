@@ -12,11 +12,6 @@ public class Model {
 		this.dao= new RiversDAO();
 	}
 	
-	/*public void setRiverFlows(){
-		for (River r : this.getAllRivers())
-			r.setFlows(this.getFlowsByRiver(r));
-	}*/
-	
 	public List<River> getAllRivers(){
 		return dao.getAllRivers();
 	}
