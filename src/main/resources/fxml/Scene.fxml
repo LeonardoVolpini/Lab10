@@ -29,6 +29,7 @@
 					<children>
 						<Label text="Fiume" />
 						<ComboBox fx:id="boxRiver" prefWidth="150.0" promptText="Scegli un fiume..." />
+                  <Button mnemonicParsing="false" onAction="#doRiempiCampi" text="Riempi Campi" />
 					</children>
 				</HBox>
 				<GridPane>

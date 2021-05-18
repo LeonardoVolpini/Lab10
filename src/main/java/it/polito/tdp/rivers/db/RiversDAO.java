@@ -46,11 +46,31 @@ public class RiversDAO {
 				Flow f = new Flow(rs.getDate("day").toLocalDate(),rs.getFloat("flow"),river);
 				flows.add(f);
 			}
+			river.setFlows(flows);
 			conn.close();
 		} catch(SQLException e) {
 			throw new RuntimeException("SQL Error",e);
 		}
 		return flows;
+	}
+	
+	public void setFlowAvgByRiver(River river) {
+		String sql="SELECT AVG(f.flow) AS media "
+				+ "FROM flow f, river r "
+				+ "WHERE f.river=r.id AND r.id=? "
+				+ "GROUP BY f.river";
+		try{
+			Connection conn=DBConnect.getConnection();
+			PreparedStatement st = conn.prepareStatement(sql);
+			st.setInt(1, river.getId());
+			ResultSet rs= st.executeQuery();
+			while(rs.next()) {
+				river.setFlowAvg(rs.getDouble("media"));
+			}
+			conn.close();
+		}catch(SQLException e) {
+			throw new RuntimeException("SQL errore",e);
+		}
 	}
 	
 	
