@@ -60,8 +60,8 @@ public class Simulator {
 		Flow f = e.getFlow();
 		LocalDate data= e.getData();
 		switch(e.getType()) {
-		case INGRESSO: //modificare, non setto bene fOut e quindi credo di modificare male C
-			this.C += e.getFlow().getFlow(); //prendo il Flow di e e poi prendo il valore di quel Flow
+		case INGRESSO: //forse da modificare: non so setto bene fOut e quindi credo di modificare male C
+			this.C += e.getFlow().getFlow()*24*3600; //prendo il Flow di e e poi prendo il valore di quel Flow, e lo porto in m^3/gg
 			if (C>Q) { 
 				//schedulo evento di tracimazione
 				this.queue.add(new Event(data,EventType.TRACIMAZIONE,f) );
