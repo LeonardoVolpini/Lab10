@@ -55,7 +55,7 @@ public class FXMLController {
     private TextArea txtResult; // Value injected by FXMLLoader
     
     @FXML
-    void doRiempiCampi(ActionEvent event) {
+    void RiempiCampi(ActionEvent event) {
     	this.txtResult.clear();
     	this.txtEndDate.clear();
     	this.txtFMed.clear();
@@ -72,7 +72,7 @@ public class FXMLController {
     	this.txtNumMeasurements.setText(""+flows.size());
     	this.txtStartDate.setText(start.toString());
     	this.txtEndDate.setText(end.toString());
-    	this.txtFMed.setText(""+r.getFlowAvg());		
+    	this.txtFMed.setText(""+r.getFlowAvg());	
     }
     
     @FXML
